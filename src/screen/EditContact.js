@@ -1,7 +1,7 @@
 import React from 'react';
 import {Alert, Button, Dimensions, Text, TouchableOpacity, View} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {ARROW_LEFT, LOGO} from '../assets/icons/indexIcons';
+import {ARROW_LEFT, LOGO, ICON_PROFILE} from '../assets/icons/indexIcons';
 import Header from '../components/header';
 import SimplePhotoBase64 from '../components/simplePhotoBase64';
 import TextInputSimple from '../components/textInputSimple';
@@ -80,19 +80,29 @@ export default class AddContact extends React.Component {
     });
   }
 
+  checkEmpty(input) {
+    if (input.substring(0, 4) == 'http') {
+      return input;
+    } else {
+      return 'data:image/png;base64,' + input;
+    }
+  }
+
   sentNewContact() {
     let request = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       age: this.state.age,
-      photo: 'data:image/png;base64,' + this.state.base64,
+      photo: this.checkEmpty(this.state.base64),
     };
 
-    putAPI(UPDATE_ONE_CONTACT + '/' + this.state.id, request).then(response => {
-      Alert.alert(response.message);
-    }).then(()=>{
-      this.props.navigation.goBack()
-    });
+    putAPI(UPDATE_ONE_CONTACT + '/' + this.state.id, request)
+      .then(response => {
+        Alert.alert(response.message);
+      })
+      .then(() => {
+        this.props.navigation.goBack();
+      });
   }
 
   validation() {
@@ -179,7 +189,7 @@ export default class AddContact extends React.Component {
                   age: value,
                 });
               }}
-              inputValue={this.state.age}
+              inputValue={this.state.age.toString()}
               inputPlaceholder={AGE}
               keyboardType={'numeric'}
             />

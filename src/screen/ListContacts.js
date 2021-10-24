@@ -16,23 +16,12 @@ export default class ListContacts extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    this.willFocusSubscription();
-  }
-
   componentDidMount() {
     consoleDev('masuk list contact');
     this.getContactList();
-    this.willFocusSubscription = this.props.navigation.addListener('willFocus', () => {
+    this.focusListener = this.props.navigation.addListener('focus', () => {
       this.getContactList();
     });
-
-    const {navigation} = this.props;
-    navigation.addListener('willFocus', () => {
-      this.getContactList();
-    });
-
-    // this.getContactList();
   }
 
   onRefresh() {
@@ -91,7 +80,7 @@ export default class ListContacts extends React.Component {
                 photo={item.photo}
                 firstName={item.firstName}
                 lastName={item.lastName}
-                age={item.age}
+                age={item.age.toString()}
                 onPressedEdit={() => {
                   this.props.navigation.navigate('EditContact', {
                     itemId: item.id,

@@ -16,18 +16,13 @@ export default class ListContacts extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    this.willFocusSubscription();
-  }
-
   componentDidMount() {
     consoleDev('masuk carousel contact');
     this.getContactList();
-    this.willFocusSubscription = this.props.navigation.addListener('willFocus', () => {
+
+    this.focusListener = this.props.navigation.addListener('focus', () => {
       this.getContactList();
     });
-
-    // this.getContactList();
   }
 
   onRefresh() {

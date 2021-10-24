@@ -154,7 +154,7 @@ export default class AddContact extends React.Component {
                   age: value,
                 });
               }}
-              inputValue={this.state.age}
+              inputValue={this.state.age.toString()}
               inputPlaceholder={AGE}
               keyboardType={'numeric'}
             />
