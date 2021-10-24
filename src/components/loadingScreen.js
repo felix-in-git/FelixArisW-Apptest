@@ -3,25 +3,38 @@ import {ActivityIndicator, Image, Text, View, Dimensions, Modal} from 'react-nat
 import PropTypes from 'prop-types';
 import {consoleDev} from '../function/api/api';
 import {GREEN, INPUT_TEXT_GREY, RED} from '../constant/colors';
+import {TextInputSimple} from './textInputSimple';
 
 const size = Dimensions.get('window').width;
-let loading = false;
 
+let loading = false;
 export class LoadingScreen extends React.Component {
+  static defaultProps = {
+    loadingVisible: false,
+    loadingClose: () => {
+      // modalStore.loadingScreen = false;
+    },
+  };
+
+  static propTypes = {
+    loadingVisible: PropTypes.any,
+    loadingClose: PropTypes.any,
+  };
+
   static toggleLoading(loadingStatus) {
     loading = loadingStatus;
-    consoleDev('load ' + loading);
+  }
+
+  constructor(props) {
+    super();
+    this.state = {
+      ModalVisible: props.loadingVisible,
+    };
   }
 
   render() {
     return (
-      <Modal
-        // overlayColor={'rgba(235, 235, 235, 0.5)'}
-        visible={loading}
-        // modalClose={this.props.loadingClose}
-        animationType={'fade'}
-        // modalBackgroundColor={'transparent'}
-      >
+      <Modal visible={loading} animationType={'fade'}>
         <View
           style={{
             flex: 1,

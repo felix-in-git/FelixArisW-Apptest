@@ -1,7 +1,9 @@
 import React from 'react';
 import {Alert, Dimensions, FlatList, Image, TouchableOpacity, View} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import {ICON_ADD, LOGO, MENU} from '../assets/icons/indexIcons';
 import Header from '../components/header';
+import {LoadingScreen} from '../components/loadingScreen';
 import VerticalCardContacts from '../components/verticalCardContact';
 import {DELETE_ONE_CONTACT, GET_ALL_CONTACT} from '../constant/apiUrl';
 import {CAROUSEL_BACKGROUND, WHITE} from '../constant/colors';
@@ -13,6 +15,7 @@ export default class ListContacts extends React.Component {
     this.state = {
       listContact: [],
       isFetching: false,
+      loading: true,
     };
   }
 
@@ -32,11 +35,13 @@ export default class ListContacts extends React.Component {
   }
 
   getContactList() {
+    this.setState({loading: true});
     consoleDev('masuk use effect');
     getAPI(GET_ALL_CONTACT).then(response => {
       this.setState({
         listContact: JSON.parse(JSON.stringify(response.data)),
         isFetching: false,
+        loading: true,
       });
     });
   }
@@ -54,7 +59,6 @@ export default class ListContacts extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: WHITE}}>
-        {/* <Header mainText={'hehehehe'} /> */}
         <Header mainLogo={LOGO} logoRight={MENU} onPressRight={() => this.props.navigation.navigate('ListContacts')} />
         <FlatList
           style={{flex: 1, backgroundColor: CAROUSEL_BACKGROUND}}

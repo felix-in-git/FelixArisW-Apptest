@@ -19,7 +19,7 @@ export default class AddContact extends React.Component {
     this.state = {
       firstName: '',
       lastName: '',
-      age: 0,
+      age: '',
       photo: '',
       id: '',
 
@@ -112,6 +112,8 @@ export default class AddContact extends React.Component {
       Alert.alert(ERROR_LENGTH_FIRST_NAME);
     } else if (this.state.lastName.length < 3 || this.state.lastName.length > 30) {
       Alert.alert(ERROR_LENGTH_LAST_NAME);
+    } else if (!this.state.age) {
+      Alert.alert(ERROR_LENGTH_AGE);
     } else if (this.state.age <= 0 || this.state.age > 200) {
       Alert.alert(ERROR_LENGTH_AGE);
     } else {
